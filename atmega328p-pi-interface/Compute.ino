@@ -86,7 +86,9 @@ void Compute() {
       Serial.write((uint8_t *) &speedr, sizeof(speedr));
       tftLoopsRcount = tftLoopsCountR + 1;
     }
+    delay(timeDelay);
   }
+  
 speedl = 0;
 speedr = 0;
   
