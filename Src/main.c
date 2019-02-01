@@ -41,8 +41,8 @@ int cmd2;
 int cmd3;
 
 typedef struct{
-   int16_t steer;
-   int16_t speed;
+   int16_t speedr;
+   int16_t speedl;
    //uint32_t crc;
 } Serialcommand;
 
@@ -50,8 +50,8 @@ volatile Serialcommand command;
 
 uint8_t button1, button2;
 
-int steer; // global variable for steering. -1000 to 1000
-int speed; // global variable for speed. -1000 to 1000
+int speedr; // global variable for steering. -1000 to 1000
+int speedl; // global variable for speed. -1000 to 1000
 
 extern volatile int pwml;  // global variable for pwm left. -1000 to 1000
 extern volatile int pwmr;  // global variable for pwm right. -1000 to 1000
@@ -77,7 +77,7 @@ int milli_vel_error_sum = 0;
 
 
 void poweroff() {
-    if (abs(speed) < 20) {
+    if (abs(speedr) < 20) {
         buzzerPattern = 0;
         enable = 0;
         for (int i = 0; i < 8; i++) {
