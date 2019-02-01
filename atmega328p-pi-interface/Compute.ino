@@ -87,9 +87,11 @@ void Compute() {
       tftLoopsRcount = tftLoopsCountR + 1;
     }
   }
-      
-
-
+speedl = 0;
+speedr = 0;
+  
+Serial.write((uint8_t *) &speedl, sizeof(speedl));
+Serial.write((uint8_t *) &speedr, sizeof(speedr));
 
 
 
