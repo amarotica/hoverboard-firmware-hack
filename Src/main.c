@@ -211,22 +211,25 @@ int main(void) {
       timeout = 0;
     #endif
 
+ //   #ifdef CONTROL_SERIAL_USART2
+ //     cmd1 = CLAMP((int16_t)command.steer, -1000, 1000);
+ //     cmd2 = CLAMP((int16_t)command.speed, -1000, 1000);
     #ifdef CONTROL_SERIAL_USART2
-      cmd1 = CLAMP((int16_t)command.steer, -1000, 1000);
-      cmd2 = CLAMP((int16_t)command.speed, -1000, 1000);
+      speedr = CLAMP((int16_t)command.speedr, -1000, 1000);
+      speedl = CLAMP((int16_t)command.speedl, -1000, 1000);
 
       timeout = 0;
     #endif
 
 
     // ####### LOW-PASS FILTER #######
-    steer = steer * (1.0 - FILTER) + cmd1 * FILTER;
-    speed = speed * (1.0 - FILTER) + cmd2 * FILTER;
+//    speedr = speedr * (1.0 - FILTER) + cmd1 * FILTER;
+//    speedl = speedl * (1.0 - FILTER) + cmd2 * FILTER;
 
 
-    // ####### MIXER #######
-    speedR = CLAMP(speed * SPEED_COEFFICIENT -  steer * STEER_COEFFICIENT, -1000, 1000);
-    speedL = CLAMP(speed * SPEED_COEFFICIENT +  steer * STEER_COEFFICIENT, -1000, 1000);
+    // ####### MIXER #######                    //Rearranged for tank style control
+    speedR = CLAMP(speedr * SPEED_COEFFICIENT, -1000, 1000);
+    speedL = CLAMP(speedl * SPEED_COEFFICIENT, -1000, 1000);
 
 
     #ifdef ADDITIONAL_CODE
