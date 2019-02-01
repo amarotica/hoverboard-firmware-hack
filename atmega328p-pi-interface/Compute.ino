@@ -1,11 +1,13 @@
-void Compute() {
   //This module will calculate the needed velocites and times for everything, in standard metric units (Meters)
   //The output scalar value will be used to calibrate commands+error with actual motion.
   //All input measurements will be in CM
+
+void Compute() {
+  
   int VcL = 0; //Velocity change per loop
   int VcR = 0; //Velocity change per loop
-  int LoopsL = 0;
-  int LoopsR = 0;
+  int LoopsL = 0; //Number of right movement loops
+  int LoopsR = 0; //Number of left movement loops
   int tfaL = 0; //Time for acceleration
   int tfaR = 0; //Time for acceleration
   int dfaL = 0; //Distance for acceleration
@@ -57,10 +59,35 @@ void Compute() {
     tftR = RD / velocityMin;
     tftLoopsR = 1000 * tftR / timeDelay;
   }
+  
   LoopsMax = max(LoopsR, LoopsL);
   rLoopsMax = max(rLoopsR, rLoopsL);
   tftLoopsMax = max(tftLoopsR, tftLoopsL);
-
+  Max = max((LoopsMax+rLoopsMax), tftLoopsMax);
+  
+  for (int i = 0; i <= (Max); i++) {
+    if ((LoopsLcount <= LoopsL) && (tftLoopsL == 0)) {
+      speedl = speedl + VcL;
+      Serial.write((uint8_t *) &speedl, sizeof(speedl));
+      LoopsLcount = LoopsLcount + 1;
+    }
+    if ((LoopsRcount <= LoopsR) && (tftLoopsR == 0)) {
+      speedr = speedr + VcR;
+      Serial.write((uint8_t *) &speedr, sizeof(speedr));
+      LoopsRcount = LoopsRcount + 1;
+    }
+    if ((tftLoopsLcount <= tftLoopsL) && (tftLoopsL != 0)) {
+      speedl = speedl + VcL;
+      Serial.write((uint8_t *) &speedl, sizeof(speedl));
+      tftLoopsLcount = tftLoopsCountL + 1;
+    }
+    if ((tftLoopsRcount <= tftLoopsR) && (tftLoopsR != 0)) {
+      speedr = speedr + VcR;
+      Serial.write((uint8_t *) &speedr, sizeof(speedr));
+      tftLoopsRcount = tftLoopsCountR + 1;
+    }
+  }
+      
 
 
 
