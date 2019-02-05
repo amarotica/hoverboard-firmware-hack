@@ -29,7 +29,7 @@ boolean newData = false;
 void setup() {
   Serial.begin(19200);
   pie.begin(9600);
-  pie.println("This demo expects 3 pieces of data - 3 integers");
+  pie.println("This program expects a message (Control mode) and three integers: Left Distance, Right Distance, Acceleration.");
   pie.println("Enter data in this style <Hello, 27, 12, 24>  ");
   pie.println();
 }
