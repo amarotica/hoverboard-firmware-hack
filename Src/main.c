@@ -305,7 +305,7 @@ int main(void) {
 
 
     // ####### INACTIVITY TIMEOUT #######
-    if (abs(speedL) > 50 || abs(speedR) > 50) {
+    if (abs(speedL) > 30 || abs(speedR) > 30) {
       inactivity_timeout_counter = 0;
     } else {
       inactivity_timeout_counter ++;
