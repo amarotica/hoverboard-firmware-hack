@@ -9,6 +9,8 @@ int speedr = 0;
 int timeDelay = 20; //Loop delay in ms
 int velocityMax = 100; //Max wheel velocity in cm/s
 int velocityMin = 30;
+int lastL;
+int lastR;
 
 const byte numChars = 32;
 char receivedChars[numChars];
