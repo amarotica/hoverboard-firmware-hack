@@ -89,6 +89,9 @@ void Compute() {
     delay(timeDelay);
   }
   
+lastL = speedl;
+lastR = speedr;
+  
 speedl = 0;
 speedr = 0;
   
