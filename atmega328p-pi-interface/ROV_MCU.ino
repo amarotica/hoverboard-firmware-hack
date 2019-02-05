@@ -38,13 +38,12 @@ void loop() {
   recvWithStartEndMarkers();
   if (newData == true) {
     strcpy(tempChars, receivedChars);
-    // this temporary copy is necessary to protect the original data
-    //   because strtok() used in parseData() replaces the commas with \0
+
     parseData();
     showParsedData();
     newData = false;
   }
-
+  SafetyCheck();
 
 
 }
@@ -116,3 +115,21 @@ void showParsedData() {
   pie.println(AccelerationInput);
 }
 
+void SafetyCheck() { // Experimental timeout check. This function may screw with control though.
+  if ((LeftDistanceInput == 0) && (RightDistanceInput == 0)) {
+    pie.println("No Data recieved. Device timeout active")
+    speedl = 0;
+    speedr = 0;
+    Serial.write((uint8_t *) &speedl, sizeof(speedl));
+    Serial.write((uint8_t *) &speedr, sizeof(speedr));
+    delay(250);
+  }
+  else {
+    Compute();
+    pie.print("ROV Active. SpeedL: ");
+    pie.print(lastL/10);
+    pie.print("% SpeedR: ");
+    pie.print(LastR/10);
+    pie.println("%");
+  }
+}
