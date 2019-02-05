@@ -49,7 +49,7 @@ typedef struct{
 volatile Serialcommand command;
 
 uint8_t button1, button2;
-
+int timeoutcount; //Timeout counter
 int speedr; // global variable for steering. -1000 to 1000
 int speedl; // global variable for speed. -1000 to 1000
 
@@ -238,7 +238,7 @@ int main(void) {
 
 
     // ####### SET OUTPUTS #######
-    if ((speedL < lastSpeedL + 50 && speedL > lastSpeedL - 50) && (speedR < lastSpeedR + 50 && speedR > lastSpeedR - 50) && timeout < TIMEOUT) {
+    if ((speedL < lastSpeedL + 20 && speedL > lastSpeedL - 20) && (speedR < lastSpeedR + 20 && speedR > lastSpeedR - 20) && timeout < TIMEOUT) {
     #ifdef INVERT_R_DIRECTION
       pwmr = speedR;
     #else
@@ -250,6 +250,24 @@ int main(void) {
       pwml = speedL;
     #endif
     }
+     
+    else { //Slowly ramps speed down to 0 if bad input.
+       while ((pwml != 0) || (pwmr != 0)) {
+          if (pwml > 0) {
+             pwml = pwml-5;
+          }
+          if (pwml < 0) {
+             pwml = pwml+5;
+          }
+          if (pwmr > 0) {
+             pwmr = pwmr-5;
+          }
+          if (pwmr < 0) {
+             pwmr = pwmr+5;
+          }
+       }
+    }
+          
 
     lastSpeedL = speedL;
     lastSpeedR = speedR;
