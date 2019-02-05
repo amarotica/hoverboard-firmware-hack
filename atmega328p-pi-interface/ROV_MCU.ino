@@ -116,8 +116,3 @@ void showParsedData() {
   pie.println(AccelerationInput);
 }
 
-void Send() {
-  Serial.write((uint8_t *) &speedl, sizeof(speedl));
-  Serial.write((uint8_t *) &speedr, sizeof(speedr));
-}
-
